@@ -1,64 +1,42 @@
+// App.tsx
+import React from "react";
 
-import React, { useState, useEffect } from 'react';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import Embarkations from './components/Embarkations';
-import Documents from './components/Documents';
-import Notes from './components/Notes';
-import CalendarView from './components/CalendarView';
-import PlannedCourses from './components/PlannedCourses';
-import SeaTimeCalculator from './components/SeaTimeCalculator';
-import Auth from './components/Auth';
-import { storageService } from './services/storageService';
-import { authService } from './services/authService';
-
-function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check for existing session
-    const user = authService.getCurrentUser();
-    if (user) {
-      setIsAuthenticated(true);
-    }
-    
-    // Initialize demo data if empty
-    storageService.seedData();
-    setLoading(false);
-  }, []);
-
-  const handleLogout = () => {
-    authService.logout();
-    setIsAuthenticated(false);
-    setActiveTab('dashboard'); // Reset tab on logout
-  };
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'dashboard': return <Dashboard />;
-      case 'embarkations': return <Embarkations />;
-      case 'calculator': return <SeaTimeCalculator />;
-      case 'agenda': return <PlannedCourses />;
-      case 'documents': return <Documents />;
-      case 'notes': return <Notes />;
-      case 'calendar': return <CalendarView />;
-      default: return <Dashboard />;
-    }
-  };
-
-  if (loading) return null;
-
-  if (!isAuthenticated) {
-    return <Auth onLogin={() => setIsAuthenticated(true)} />;
-  }
-
+const App: React.FC = () => {
   return (
-    <Layout activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout}>
-      {renderContent()}
-    </Layout>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#020617", // fundo escuro
+        color: "#f9fafb", // texto claro
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#0f172a",
+          padding: "2rem 2.5rem",
+          borderRadius: "1.5rem",
+          boxShadow: "0 25px 50px -12px rgba(15,23,42,0.7)",
+          textAlign: "center",
+          maxWidth: "420px",
+        }}
+      >
+        <h1 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+          Nauticos Logbook
+        </h1>
+        <p style={{ fontSize: "0.95rem", color: "#cbd5f5", marginBottom: "0.5rem" }}>
+          Deploy funcionando 🚢
+        </p>
+        <p style={{ fontSize: "0.85rem", color: "#94a3b8" }}>
+          Esta é só uma tela de teste.  
+          Depois a gente volta com o layout completo e o login.
+        </p>
+      </div>
+    </div>
   );
-}
+};
 
 export default App;
